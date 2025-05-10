@@ -1,0 +1,126 @@
+#dropdownMenu {
+  position: fixed;
+  top: 10px;
+  right: -320px; /* 初始位置在畫布外 */
+  width: 300px;
+  background-color: #FFECEC;
+  padding: 10px;
+  border-radius: 20px; /* 圓弧邊框 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
+  z-index: 100; /* 確保選單顯示在 iframe 之上 */
+  transition: transform 0.5s ease; /* 平滑滑入滑出效果 */
+}
+
+#dropdownMenu.visible {
+  transform: translateX(-320px); /* 滑入畫布內 */
+}
+
+.menu {
+  position: relative; /* 確保選單項目不會裁剪子選單 */
+  overflow: visible; /* 防止子選單被裁剪 */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu > li {
+  position: relative;
+  padding: 10px 20px;
+  background-color: #FFECEC;
+  border: 1px solid #ccc;
+  border-radius: 20px; /* 圓弧邊框 */
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-family: 'Comic Sans MS', 'Arial', sans-serif; /* 可愛字體 */
+  color: #000;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* 懸停與點擊效果 */
+}
+
+.menu > li:hover {
+  background-color: #FFCCCC; /* 滑鼠移上時改變背景顏色 */
+  transform: scale(1.05); /* 滑鼠移上時放大 */
+}
+
+.menu > li:active {
+  background-color: #FFAAAA; /* 點擊時改變背景顏色 */
+  transform: scale(0.95); /* 點擊時縮小 */
+}
+
+.has-submenu {
+  position: relative; /* 父選單項設置為相對定位 */
+  z-index: 15; /* 確保父選單項的子選單層級高於其他選單項 */
+}
+
+.submenu {
+  display: none; /* 預設隱藏子選單 */
+  position: absolute;
+  top: 100%; /* 子選單顯示在父選單項的下方 */
+  left: 0; /* 子選單與父選單項左側對齊 */
+  background-color: #FFECEC;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 20; /* 確保子選單顯示在最上層 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.has-submenu:hover .submenu {
+  display: block; /* 滑鼠移到父項目時顯示子選單 */
+}
+
+.submenu > li {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.submenu > li:hover {
+  background-color: #FFCCCC; /* 滑鼠移到子項目時改變背景顏色 */
+}
+
+#iframeContainer {
+  position: fixed;
+  top: 50%; /* 垂直置中 */
+  left: 50%; /* 水平置中 */
+  transform: translate(-50%, -50%); /* 將容器移到正中央 */
+  width: 80%; /* 寬度為螢幕的 80% */
+  height: 60%; /* 高度為螢幕的 60% */
+  background-color: #FFFFFF; /* 背景為白色 */
+  border-radius: 10px; /* 圓角邊框 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加陰影 */
+  display: none; /* 預設隱藏 */
+  z-index: 50; /* 確保 iframe 顯示在選單下方 */
+}
+
+#iframeContainer iframe {
+  width: 100%; /* 填滿容器寬度 */
+  height: 100%; /* 填滿容器高度 */
+  border: none; /* 移除邊框 */
+  border-radius: 10px; /* 圓角邊框 */
+}
+
+/* 確保紙花顯示在最上層 */
+body {
+  position: relative; /* 確保紙花的 z-index 生效 */
+  overflow: hidden; /* 防止紙花被裁剪 */
+}
+
+.confetti {
+  position: absolute;
+  width: 10px; /* 紙花大小 */
+  height: 10px;
+  background-color: #FFC0CB; /* 預設粉色 */
+  border-radius: 50%; /* 圓形 */
+  animation: confetti-fall 1.5s ease-out forwards;
+  z-index: 9999; /* 確保紙花顯示在所有元素之上 */
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(300px) rotate(360deg);
+  }
+}

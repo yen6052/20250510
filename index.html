@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>113下學期程式設計中報告</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+    <style>
+      /* 紙花樣式 */
+      .confetti {
+        position: absolute;
+        width: 5px; /* 紙花更細 */
+        height: 5px; /* 紙花更細 */
+        background-color: #FFC0CB; /* 粉色 */
+        border-radius: 50%;
+        animation: confetti-fall 1.5s ease-out forwards;
+        z-index: 10; /* 確保紙花覆蓋在選項上 */
+      }
+
+      @keyframes confetti-fall {
+        0% {
+          opacity: 1;
+          transform: translateY(0) rotate(0deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(300px) rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="dropdownMenu">
+      <ul class="menu">
+        <li onclick="triggerConfetti(event); clearIframe()">首頁</li>
+        <li onclick="triggerConfetti(event); loadIframe('https://y1nnn.carrd.co/')">自我介紹</li>
+        <li class="has-submenu">
+          作品集
+          <ul class="submenu">
+            <li onclick="triggerConfetti(event); loadIframe('https://hackmd.io/@y1n/HkMGlzU51l')">第一周</li>
+            <li onclick="triggerConfetti(event); loadIframe('https://hackmd.io/@y1n/rJ_hTeGsyx')">第二周</li>
+            <li onclick="triggerConfetti(event); loadIframe('https://hackmd.io/@y1n/ryecQYMiyg')">第三周</li>
+            <li onclick="triggerConfetti(event); loadIframe('https://yen6052.github.io/20250413_2/')">第四周</li>
+            <li onclick="triggerConfetti(event); loadIframe('https://yen6052.github.io/20250323/')">第五周</li>
+          </ul>
+        </li>
+        <li onclick="triggerConfetti(event); loadIframe('https://yen6052.github.io/20250413_2/')">測驗卷</li>
+        <li onclick="triggerConfetti(event); loadIframe('https://cfchen58.synology.me/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%882024/B2/week8/20250407_091922.mp4')">教學影片</li>
+      </ul>
+    </div>
+
+    <div id="iframeContainer" style="display: none;">
+      <iframe id="contentFrame" src="" frameborder="0"></iframe>
+    </div>
+
+    <script src="sketch.js"></script>
+    <script>
+      // 動態載入 iframe 的內容
+      function loadIframe(url) {
+        const iframeContainer = document.getElementById('iframeContainer');
+        const iframe = document.getElementById('contentFrame');
+        iframe.src = url;
+        iframeContainer.style.display = 'block'; // 顯示 iframe 容器
+      }
+
+      // 清空 iframe 的內容並隱藏容器
+      function clearIframe() {
+        const iframeContainer = document.getElementById('iframeContainer');
+        const iframe = document.getElementById('contentFrame');
+        iframe.src = ""; // 清空 iframe 的 src
+        iframeContainer.style.display = 'none'; // 隱藏 iframe 容器
+      }
+
+      // 觸發紙花動畫
+      function triggerConfetti(event) {
+        const confettiCount = 50; // 紙花數量
+        const container = document.body;
+
+        for (let i = 0; i < confettiCount; i++) {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+
+          // 設定隨機位置
+          confetti.style.left = `${event.clientX + Math.random() * 50 - 25}px`;
+          confetti.style.top = `${event.clientY + Math.random() * 50 - 25}px`;
+
+          // 設定隨機顏色
+          confetti.style.backgroundColor = getRandomColor();
+
+          container.appendChild(confetti);
+
+          // 移除紙花
+          setTimeout(() => {
+            confetti.remove();
+          }, 1500);
+        }
+      }
+
+      // 隨機顏色生成（加入白色）
+      function getRandomColor() {
+        const colors = ['#FFC0CB', '#FFB6C1', '#FF69B4', '#FF1493', '#DB7093', '#FFFFFF']; // 加入白色
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
+    </script>
+    <script>
+      // 顯示或隱藏選單
+      function toggleMenu(event) {
+        const menu = document.getElementById('dropdownMenu');
+        if (event.clientX > window.innerWidth * 0.8) {
+          menu.classList.add('visible'); // 顯示選單
+        } else {
+          menu.classList.remove('visible'); // 隱藏選單
+        }
+      }
+
+      // 監聽滑鼠移動事件
+      document.addEventListener('mousemove', toggleMenu);
+    </script>
+  </body>
+</html>
